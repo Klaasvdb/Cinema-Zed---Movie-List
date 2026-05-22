@@ -9,7 +9,7 @@ the list builds up as an archive of everything that played at Cinema Zed.
 
 ## How it works
 
-1. Scrapes the Cinema Zed programme page (`/film/program`).
+1. Scrapes the Cinema Zed programme page (`/nl/alle-films-leuven`).
 2. Matches each film against the Trakt search API.
 3. Adds any film that isn't already on the list to your Trakt list
    (created automatically the first time).
@@ -76,7 +76,7 @@ All settings are environment variables (see `.env.example`):
 | `TRAKT_CLIENT_SECRET` | – | Trakt application client secret (required). |
 | `TRAKT_LIST_NAME` | `Cinema Zed` | Name of the Trakt list to maintain. |
 | `TRAKT_LIST_PRIVACY` | `private` | `private`, `friends` or `public`. |
-| `CINEMA_ZED_URL` | `https://www.cinemazed.be/film/program` | Programme page to scrape. |
+| `CINEMA_ZED_URL` | `https://www.cinemazed.be/nl/alle-films-leuven` | Programme page to scrape. |
 | `RUN_AT` | `08:00` | Daily run time (24h, in `TZ`). |
 | `TZ` | `Europe/Brussels` | Container timezone. |
 | `RUN_ONCE` | `0` | `1` = run once and exit. |

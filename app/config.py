@@ -16,7 +16,7 @@ class Config:
         self.list_name = os.environ.get("TRAKT_LIST_NAME", "Cinema Zed").strip()
         self.list_privacy = os.environ.get("TRAKT_LIST_PRIVACY", "private").strip()
         self.program_url = os.environ.get(
-            "CINEMA_ZED_URL", "https://www.cinemazed.be/film/program"
+            "CINEMA_ZED_URL", "https://www.cinemazed.be/nl/alle-films-leuven"
         ).strip()
         self.run_at = os.environ.get("RUN_AT", "08:00").strip()
         self.data_dir = os.environ.get("DATA_DIR", "/data").strip()
