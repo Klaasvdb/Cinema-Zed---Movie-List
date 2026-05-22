@@ -68,31 +68,26 @@ docker compose logs -f
 
 ## Running on Unraid (Compose Manager plugin)
 
-A prebuilt image is published to GHCR by GitHub Actions, so Unraid does not
-need the source code — it just pulls the image.
+A prebuilt image is published to GHCR by GitHub Actions, so Unraid only
+pulls the image — no source code and no terminal commands needed.
 
-1. **Create the appdata folder.** In the Unraid terminal:
-   ```sh
-   mkdir -p /mnt/user/appdata/cinema-zed-trakt/data
-   ```
-2. **Create the `.env` file** at `/mnt/user/appdata/cinema-zed-trakt/.env`
-   (copy `.env.example` and fill in `TRAKT_CLIENT_ID` / `TRAKT_CLIENT_SECRET`).
-3. **Make the GHCR package public** (one time): GitHub → your profile →
+1. **Make the GHCR package public** (one time): GitHub → your profile →
    Packages → `cinema-zed-trakt` → Package settings → Change visibility →
-   Public. The image holds no secrets. (Skip this if you prefer to
+   Public. The image holds no secrets. (Skip this if you prefer to run
    `docker login ghcr.io` on Unraid instead.)
-4. **Authorize once** from the Unraid terminal:
-   ```sh
-   docker run --rm -it \
-     -v /mnt/user/appdata/cinema-zed-trakt/data:/data \
-     --env-file /mnt/user/appdata/cinema-zed-trakt/.env \
-     ghcr.io/klaasvdb/cinema-zed-trakt:latest python -m app.authorize
-   ```
-5. **Add the stack.** Docker tab → Add New Stack → name it
+2. **Add the stack.** Docker tab → Add New Stack → name it
    `cinema-zed-trakt` → Edit Stack → paste the contents of
-   `docker-compose.unraid.yml` → Compose Up.
+   `docker-compose.unraid.yml`.
+3. **Fill in your Trakt credentials** in the pasted file
+   (`TRAKT_CLIENT_ID` and `TRAKT_CLIENT_SECRET`), then **Compose Up**.
+4. **Link your Trakt account.** Open the container **Logs** in the plugin.
+   On the first run it prints an `ACTION NEEDED` block with a URL and a
+   code — open the URL, enter the code, approve. The container then
+   continues on its own and syncs every day at `RUN_AT`.
 
-To update later: re-run the stack (it pulls the newest `:latest` image).
+The token is stored in `/mnt/user/appdata/cinema-zed-trakt/data`, so the
+authorization survives restarts. To update later: re-run the stack (it
+pulls the newest `:latest` image).
 
 ## Configuration
 

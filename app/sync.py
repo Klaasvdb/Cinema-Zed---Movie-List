@@ -3,22 +3,11 @@
 import logging
 
 from .cinema_zed import scrape_films
-from .trakt_client import TraktClient, TraktError
 
 log = logging.getLogger("sync")
 
 
-def run_sync(config):
-    config.validate()
-    trakt = TraktClient(
-        config.trakt_client_id, config.trakt_client_secret, config.token_path
-    )
-    if not trakt.authorized:
-        raise TraktError(
-            "No Trakt tokens found. Run the one-time authorization first:\n"
-            "  docker compose run --rm cinema-zed-trakt python -m app.authorize"
-        )
-
+def run_sync(config, trakt):
     films = scrape_films(config)
     if not films:
         log.warning("No films scraped from Cinema Zed; nothing to do.")

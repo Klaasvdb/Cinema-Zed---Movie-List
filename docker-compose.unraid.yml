@@ -1,12 +1,21 @@
-# Unraid Docker Compose stack for the Compose Manager plugin.
-# Paste this into a new stack and adjust the appdata path / TZ if needed.
+# Unraid stack for the Docker Compose Manager plugin.
+#
+# 1. Docker tab -> Add New Stack -> name it "cinema-zed-trakt".
+# 2. Edit Stack -> paste this file.
+# 3. Fill in TRAKT_CLIENT_ID and TRAKT_CLIENT_SECRET below.
+# 4. Compose Up. Then open the container Logs and follow the
+#    "ACTION NEEDED" lines to link the app to your Trakt account.
 services:
   cinema-zed-trakt:
     image: ghcr.io/klaasvdb/cinema-zed-trakt:latest
     container_name: cinema-zed-trakt
     restart: unless-stopped
-    env_file: /mnt/user/appdata/cinema-zed-trakt/.env
     environment:
+      - TRAKT_CLIENT_ID=PUT-YOUR-CLIENT-ID-HERE
+      - TRAKT_CLIENT_SECRET=PUT-YOUR-CLIENT-SECRET-HERE
+      - TRAKT_LIST_NAME=Cinema Zed
+      - TRAKT_LIST_PRIVACY=private
+      - RUN_AT=08:00
       - TZ=Europe/Brussels
     volumes:
       - /mnt/user/appdata/cinema-zed-trakt/data:/data
