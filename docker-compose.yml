@@ -1,0 +1,11 @@
+services:
+  cinema-zed-trakt:
+    build: .
+    image: cinema-zed-trakt
+    container_name: cinema-zed-trakt
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - TZ=${TZ:-Europe/Brussels}
+    volumes:
+      - ./data:/data
