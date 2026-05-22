@@ -1,0 +1,12 @@
+# Unraid Docker Compose stack for the Compose Manager plugin.
+# Paste this into a new stack and adjust the appdata path / TZ if needed.
+services:
+  cinema-zed-trakt:
+    image: ghcr.io/klaasvdb/cinema-zed-trakt:latest
+    container_name: cinema-zed-trakt
+    restart: unless-stopped
+    env_file: /mnt/user/appdata/cinema-zed-trakt/.env
+    environment:
+      - TZ=Europe/Brussels
+    volumes:
+      - /mnt/user/appdata/cinema-zed-trakt/data:/data

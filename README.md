@@ -66,6 +66,34 @@ docker compose logs -f
 | `RUN_ONCE=1` in `.env` | Run a single sync and exit (e.g. for use with host `cron`). |
 | Delete `data/trakt_tokens.json` | Forces re-authorization. |
 
+## Running on Unraid (Compose Manager plugin)
+
+A prebuilt image is published to GHCR by GitHub Actions, so Unraid does not
+need the source code — it just pulls the image.
+
+1. **Create the appdata folder.** In the Unraid terminal:
+   ```sh
+   mkdir -p /mnt/user/appdata/cinema-zed-trakt/data
+   ```
+2. **Create the `.env` file** at `/mnt/user/appdata/cinema-zed-trakt/.env`
+   (copy `.env.example` and fill in `TRAKT_CLIENT_ID` / `TRAKT_CLIENT_SECRET`).
+3. **Make the GHCR package public** (one time): GitHub → your profile →
+   Packages → `cinema-zed-trakt` → Package settings → Change visibility →
+   Public. The image holds no secrets. (Skip this if you prefer to
+   `docker login ghcr.io` on Unraid instead.)
+4. **Authorize once** from the Unraid terminal:
+   ```sh
+   docker run --rm -it \
+     -v /mnt/user/appdata/cinema-zed-trakt/data:/data \
+     --env-file /mnt/user/appdata/cinema-zed-trakt/.env \
+     ghcr.io/klaasvdb/cinema-zed-trakt:latest python -m app.authorize
+   ```
+5. **Add the stack.** Docker tab → Add New Stack → name it
+   `cinema-zed-trakt` → Edit Stack → paste the contents of
+   `docker-compose.unraid.yml` → Compose Up.
+
+To update later: re-run the stack (it pulls the newest `:latest` image).
+
 ## Configuration
 
 All settings are environment variables (see `.env.example`):
